@@ -20,7 +20,7 @@ import java.io.IOException;
 
 import static com.example.displayjoke.DisplayJoke.JOKE_KEY;
 
-class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
+public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     private static MyApi myApiService = null;
     private Context context;
     View rootView;
@@ -34,8 +34,9 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        if(rootView!=null){
         spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.VISIBLE);
+        spinner.setVisibility(View.VISIBLE);}
     }
 
     @Override
@@ -71,6 +72,7 @@ class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
+        if(spinner!=null)
         spinner.setVisibility(View.GONE);
         Intent intent = new Intent(context, DisplayJoke.class);
         intent.putExtra(JOKE_KEY, result);

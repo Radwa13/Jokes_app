@@ -1,6 +1,7 @@
 package com.udacity.test;
 
 import android.support.test.InstrumentationRegistry;
+import android.text.TextUtils;
 
 import com.udacity.gradle.builditbigger.EndpointsAsyncTask;
 
@@ -13,6 +14,7 @@ import org.junit.Test;
 import java.util.concurrent.ExecutionException;
 
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 public class TestAsynk {
 
@@ -22,7 +24,7 @@ public class TestAsynk {
 
     @Before
     public void setUpCounter() {
-        endpointsAsyncTask = new EndpointsAsyncTask();
+        endpointsAsyncTask = new EndpointsAsyncTask(null);
     }
 
 @Test
@@ -37,8 +39,7 @@ public class TestAsynk {
     } catch (ExecutionException e) {
         e.printStackTrace();
     }
-    assertTrue("joke is null", joke != null);
-    assertTrue("joke is empty", !joke.isEmpty());
+    assertFalse("Joke is Empty", TextUtils.isEmpty(joke));
 
 
 }

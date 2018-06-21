@@ -42,11 +42,12 @@ public class MainActivityFragment extends Fragment {
                 .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
                 .build();
         mAdView.loadAd(adRequest);
-
         showJoke.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
-                new EndpointsAsyncTask(root).execute(getActivity());
+                new EndpointsAsyncTask(root).execute(getActivity().getApplicationContext() );
+
             }
         });
                 return root;
