@@ -25,8 +25,13 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     private Context context;
     View rootView;
     private ProgressBar spinner;
-
+    private AsynkFinish asynkFinish;
     public EndpointsAsyncTask(View view) {
+
+    }
+
+    public EndpointsAsyncTask(AsynkFinish listener, View view) {
+        this.asynkFinish = listener;
         rootView = view;
 
     }
@@ -34,9 +39,10 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        if(rootView!=null){
-        spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.VISIBLE);}
+        if (rootView != null) {
+            spinner = (ProgressBar) rootView.findViewById(R.id.progressBar1);
+            spinner.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
@@ -47,7 +53,7 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
                     // options for running against local devappserver
                     // - 10.0.2.2 is localhost's IP address in Android emulator
                     // - turn off compression when running against local devappserver
-                    .setRootUrl("http://192.168.1.100:8080/_ah/api/")
+                    .setRootUrl("http://192.168.1.101:8080/_ah/api/")
 
                     .setGoogleClientRequestInitializer(new GoogleClientRequestInitializer() {
                         @Override
@@ -72,10 +78,10 @@ public class EndpointsAsyncTask extends AsyncTask<Context, Void, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        if(spinner!=null)
-        spinner.setVisibility(View.GONE);
-        Intent intent = new Intent(context, DisplayJoke.class);
-        intent.putExtra(JOKE_KEY, result);
-        context.startActivity(intent);
+        if (spinner != null)
+            spinner.setVisibility(View.GONE);
+        asynkFinish.onAsynkFinish(result);
+
     }
+    
 }

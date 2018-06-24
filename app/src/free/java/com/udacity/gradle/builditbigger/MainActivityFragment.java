@@ -21,7 +21,7 @@ import static com.example.displayjoke.DisplayJoke.JOKE_KEY;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class MainActivityFragment extends Fragment {
+public class MainActivityFragment extends Fragment implements AsynkFinish {
     Button showJoke;
     private ProgressBar spinner;
     public MainActivityFragment() {
@@ -46,7 +46,7 @@ public class MainActivityFragment extends Fragment {
 
             @Override
             public void onClick(View view) {
-                new EndpointsAsyncTask(root).execute(getActivity().getApplicationContext() );
+                new EndpointsAsyncTask(MainActivityFragment.this,root).execute(getActivity().getApplicationContext() );
 
             }
         });
@@ -54,4 +54,10 @@ public class MainActivityFragment extends Fragment {
     }
 
 
+    @Override
+    public void onAsynkFinish(String data) {
+        Intent intent = new Intent(getActivity(), DisplayJoke.class);
+        intent.putExtra(JOKE_KEY, data);
+        getActivity().startActivity(intent);
+    }
 }
